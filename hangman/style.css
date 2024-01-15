@@ -101,4 +101,5 @@ p {
 
 .--done {
   background: greenyellow;
+  cursor: default;
 }

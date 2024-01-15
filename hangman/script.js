@@ -109,8 +109,6 @@ function init() {
 
 init();
 
-console.log(document.querySelectorAll(".letter"));
-
 window.addEventListener("keydown", function (e) {
   e.preventDefault();
   const letter = document.querySelector(`.key[data="${e.code}"]`);
@@ -132,5 +130,27 @@ window.addEventListener("keydown", function (e) {
     letter.classList.add("--unvailable");
     errors += 1;
     field_errors.innerHTML = `Incorrect guesses: ${errors}/6`;
+  }
+});
+
+field_keyboard.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.className === "key") {
+    if (word_result.includes(e.target.textContent)) {
+      e.target.classList.add("--done");
+      let count = 0;
+      const result = word_result.split("");
+      document.querySelectorAll(".letter").forEach((elem) => {
+        if (count === result.indexOf(e.target.textContent)) {
+          elem.textContent = result[count];
+          result.splice(count, 1, 0);
+        }
+        count += 1;
+      });
+    } else {
+      e.target.classList.add("--unvailable");
+      errors += 1;
+      field_errors.innerHTML = `Incorrect guesses: ${errors}/6`;
+    }
   }
 });
