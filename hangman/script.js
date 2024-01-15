@@ -20,19 +20,41 @@ const gallow = document.querySelector(".gallow");
 const field = document.querySelector(".field");
 const field_part = document.querySelector(".field_part");
 
-generateDivs("div", gallow, 1, "man");
+// generateDivs("div", gallow, 1, "man");
 
 const man = document.querySelector(".man");
 generateDivs("img", gallow, 1, "gallow_img");
 const gallow_img = document.querySelector(".gallow_img");
-gallow_img.src =
-  "img/628ecd90da6f2872bbf7995f_Hangman Floor_In this series_680x906px.jpg";
+gallow_img.src = "img/hang_back.png";
 
-generateDivs("div", man, 5, "man_part");
+generateDivs("div", gallow, 1, "man_head hidden");
+generateDivs("div", gallow, 1, "man_body hidden");
+generateDivs("div", gallow, 1, "man_larm hidden");
+generateDivs("div", gallow, 1, "man_rarm hidden");
+generateDivs("div", gallow, 1, "man_lleg hidden");
+generateDivs("div", gallow, 1, "man_rleg hidden");
 generateDivs("div", field, 1, "field_key");
 generateDivs("div", field, 1, "field_word");
 generateDivs("div", field, 1, "field_errors");
 generateDivs("div", field, 1, "field_keyboard");
+
+const man_head = document.querySelector(".man_head");
+man_head.innerHTML = "O";
+
+const man_body = document.querySelector(".man_body");
+man_body.innerHTML = "|";
+
+const man_larm = document.querySelector(".man_larm");
+man_larm.innerHTML = "/";
+
+const man_rarm = document.querySelector(".man_rarm");
+man_rarm.innerHTML = "\\";
+
+const man_lleg = document.querySelector(".man_lleg");
+man_lleg.innerHTML = "/";
+
+const man_rleg = document.querySelector(".man_rleg");
+man_rleg.innerHTML = "\\";
 
 const word = document.querySelector(".field_word");
 const field_key = document.querySelector(".field_key");
@@ -40,13 +62,8 @@ const field_keyboard = document.querySelector(".field_keyboard");
 const field_errors = document.querySelector(".field_errors");
 
 field_errors.innerHTML = "Incorrect guesses: 0/6";
-
-// function errors() {
-
-// }
-
+const number = Math.floor(Math.random(10) * 10);
 function generateWord() {
-  const number = Math.floor(Math.random(10) * 10);
   const words = [
     "elephant",
     "giraffe",
@@ -75,10 +92,11 @@ function generateWord() {
 }
 
 const word_result = generateWord()[0];
+const key_result = generateWord()[1];
 
 function displayWord(secretWord) {
   word.innerHTML = "";
-  field_key.textContent = generateWord()[1];
+  field_key.textContent = key_result;
   for (let i = 0; i < secretWord.length; i++) {
     const letterDiv = document.createElement("div");
     letterDiv.className = "letter";
@@ -109,9 +127,23 @@ function init() {
 
 init();
 
+const man_parts = [
+  "man_head",
+  "man_body",
+  "man_larm",
+  "man_rarm",
+  "man_lleg",
+  "man_rleg",
+];
+
 window.addEventListener("keydown", function (e) {
-  e.preventDefault();
   const letter = document.querySelector(`.key[data="${e.code}"]`);
+  if (
+    letter.classList[1] === "--unvailable" ||
+    letter.classList[1] === "--done"
+  ) {
+    letter.preventDefault();
+  }
   if (word_result.includes(letter.textContent)) {
     letter.classList.add("--done");
     let count = 0;
@@ -123,14 +155,19 @@ window.addEventListener("keydown", function (e) {
       }
       count += 1;
     });
-    if (count === word_result.length - 1) {
-      this.alert("YOU WON!");
-    }
   } else {
+    this.document.querySelector(`.${man_parts[errors]}`).classList =
+      this.document
+        .querySelector(`.${man_parts[errors]}`)
+        .className.split(" ")[0];
+
     letter.classList.add("--unvailable");
     errors += 1;
     field_errors.innerHTML = `Incorrect guesses: ${errors}/6`;
+    end();
   }
+
+  check_correct();
 });
 
 field_keyboard.addEventListener("click", function (e) {
@@ -151,6 +188,43 @@ field_keyboard.addEventListener("click", function (e) {
       e.target.classList.add("--unvailable");
       errors += 1;
       field_errors.innerHTML = `Incorrect guesses: ${errors}/6`;
+      end();
     }
   }
+  check_correct();
 });
+
+const button = document.createElement("button");
+button.setAttribute("type", "button");
+button.classList.add("btn");
+button.textContent = "New game";
+button.addEventListener("click", () => {
+  location.reload();
+});
+
+function end() {
+  if (errors === 6) {
+    const end = document.createElement("div");
+    end.className = "end";
+    end.innerHTML = `You lost! =( <br> The correct word: ${word_result} <br> Try again! <br>`;
+    container.append(end);
+    end.append(button);
+  }
+}
+
+function check_correct() {
+  const len = word_result.length;
+  let i = len;
+  document.querySelectorAll(".letter").forEach((item) => {
+    if (item.textContent !== "_") {
+      i -= 1;
+    }
+    if (i === 0) {
+      const win = document.createElement("div");
+      win.className = "end";
+      win.innerHTML = `You win! =) <br> The correct word: ${word_result} <br> Try again! <br>`;
+      container.append(win);
+      win.append(button);
+    }
+  });
+}

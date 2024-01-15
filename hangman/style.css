@@ -29,6 +29,7 @@ p {
 }
 
 .container {
+  position: relative;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -37,8 +38,10 @@ p {
 }
 
 .gallow {
+  padding-top: 20px;
+  position: relative;
   width: 50%;
-  background: #000;
+  background: #fff;
 }
 
 .gallow_img {
@@ -65,6 +68,7 @@ p {
   display: flex;
   justify-content: space-around;
   margin: 25px auto;
+  font-weight: bold;
 }
 
 .field_errors {
@@ -102,4 +106,104 @@ p {
 .--done {
   background: greenyellow;
   cursor: default;
+}
+
+.man_head {
+  position: absolute;
+  left: 54%;
+  top: 13%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.man_body {
+  position: absolute;
+  left: 58%;
+  top: 23%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.man_larm {
+  position: absolute;
+  left: 55%;
+  top: 25%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.man_rarm {
+  position: absolute;
+  left: 60%;
+  top: 25%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.man_lleg {
+  position: absolute;
+  left: 55%;
+  top: 33%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.man_rleg {
+  position: absolute;
+  left: 60%;
+  top: 33%;
+  width: 300px;
+  height: 300px;
+  font-size: 100px;
+  color: black;
+  z-index: 5;
+}
+
+.end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2em;
+  line-height: 1.5;
+  color: #6c7279;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background-color: bisque;
+  z-index: 100;
+}
+
+.btn {
+  margin-top: 20px;
+  border: 1p solid #6c7279;
+  border-radius: 15px;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  font-size: 1em;
+  line-height: 1.5;
+  color: #6c7279;
+}
+
+.hidden {
+  display: none;
 }
